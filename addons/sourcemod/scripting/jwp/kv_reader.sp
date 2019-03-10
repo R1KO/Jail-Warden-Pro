@@ -11,6 +11,7 @@ void Load_SortingWardenMenu()
 			{
 				if (kv.GetSectionName(menuitem, sizeof(menuitem)))
 				{
+					StringToLower(menuitem, menuitem, sizeof(menuitem));
 					g_aSortedMenu.PushString(menuitem);
 					// Flag finder
 					kv.GetString("flag", menuitem, sizeof(menuitem), "");
@@ -25,4 +26,26 @@ void Load_SortingWardenMenu()
 	else
 		LogToFile(LOG_PATH, "[ERROR] Import file error: cfg/jwp/warden_menu.txt");
 	delete kv;
+}
+
+void StringToLower(const char[] input, char[] output, int size)
+{
+	size--;
+
+	int x = 0;
+	while (input[x] != '\0' || x < size)
+	{
+		if (IsCharUpper(input[x]))
+		{
+			output[x] = CharToLower(input[x]);
+		}
+		else
+		{
+			output[x] = input[x];
+		}
+		
+		x++;
+	}
+
+	output[x] = '\0';
 }
