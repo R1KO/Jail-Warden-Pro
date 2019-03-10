@@ -74,7 +74,7 @@ public int AdminControlMain_Callback(Menu menu, MenuAction action, int param1, i
 				char id[4], name[MAX_NAME_LENGTH];
 				Menu mPlayerMenu = new Menu(mPlayerMenu_Callback);
 				char lang[48];
-				FormatEx(lang, sizeof(lang), "%T", "Admin_Control_Choose", LANG_SERVER);
+				FormatEx(lang, sizeof(lang), "%T", "Admin_Control_Choose", param1);
 				mPlayerMenu.SetTitle(lang);
 				for (int i = 1; i <= MaxClients; ++i)
 				{

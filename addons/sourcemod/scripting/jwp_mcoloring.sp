@@ -40,7 +40,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Manual_Coloring_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Manual_Coloring_Menu", client);
 	return true;
 }
 
@@ -74,7 +74,7 @@ public int plList_Callback(Menu menu, MenuAction action, int param1, int param2)
 				if (g_iTarget && IsClientInGame(g_iTarget) && GetClientTeam(g_iTarget) == CS_TEAM_T && IsPlayerAlive(g_iTarget))
 					g_ColorsMenu.Display(param1, MENU_TIME_FOREVER);
 				else
-					JWP_ActionMsg(param1, "%T", "Manual_Coloring_UnableToColor", LANG_SERVER);
+					JWP_ActionMsg(param1, "%t", "Manual_Coloring_UnableToColor");
 			}
 		}
 	}
@@ -119,7 +119,7 @@ void PlayerListMenu(int client)
 	char idx[4], name[PLATFORM_MAX_PATH];
 	Menu plList = new Menu(plList_Callback);
 	char lang[48];
-	FormatEx(lang, sizeof(lang), "%T", "Manual_Coloring_Choose", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "Manual_Coloring_Choose", client);
 	plList.SetTitle(lang);
 	plList.ExitButton = true;
 	plList.ExitBackButton = true;
@@ -141,7 +141,7 @@ void LoadColors()
 	g_Kv = new KeyValues("Colors");
 	g_ColorsMenu = new Menu(ColorsMenu_Callback);
 	char lang[48];
-	FormatEx(lang, sizeof(lang), "%T", "Manual_Coloring_ChooseColor", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "Manual_Coloring_ChooseColor", client);
 	g_ColorsMenu.SetTitle(lang);
 	if (!g_Kv.ImportFromFile("cfg/jwp/colors/mcolors.txt"))
 	{

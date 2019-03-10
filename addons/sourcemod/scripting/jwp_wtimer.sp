@@ -76,7 +76,7 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 		
 		if (sArgs[0] == '\0')
 		{
-			JWP_ActionMsg(client, "x03%T", "WTimer_InputCancelled", LANG_SERVER);
+			JWP_ActionMsg(client, "x03%t", "WTimer_InputCancelled");
 			JWP_RefreshMenuItem(ITEM, _, ITEMDRAW_DEFAULT);
 		}
 		else
@@ -86,7 +86,7 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 			else if (g_iSec > g_CvarMaxTime.IntValue) g_iSec = g_CvarMaxTime.IntValue;
 			
 			char lang[48];
-			FormatEx(lang, sizeof(lang), "%T", "WTimer_TimerStop", LANG_SERVER);
+			FormatEx(lang, sizeof(lang), "%T", "WTimer_TimerStop", client);
 			g_hTimer = CreateTimer(1.0, WTimer_Callback, client, TIMER_REPEAT);
 			JWP_RefreshMenuItem(ITEM, lang, ITEMDRAW_DEFAULT);
 		}
@@ -99,7 +99,7 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 
 public bool OnItemDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "WTimer_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "WTimer_Menu", client);
 	return true;
 }
 
@@ -108,7 +108,7 @@ public bool OnItemSelect(int client)
 	if (!JWP_IsWarden(client)) return false;
 	if (g_hTimer == null)
 	{
-		JWP_ActionMsg(client, "\x03%T", "WTimer_HelpMessage", LANG_SERVER);
+		JWP_ActionMsg(client, "\x03%t", "WTimer_HelpMessage");
 		g_bChat = true;
 		JWP_RefreshMenuItem(ITEM, _, ITEMDRAW_DISABLED);
 	}
@@ -116,9 +116,9 @@ public bool OnItemSelect(int client)
 	{
 		KillTimer(g_hTimer);
 		g_hTimer = null;
-		PrintHintTextToAll("%T", "WTimer_WardenStoppedHint", LANG_SERVER);
+		PrintHintTextToAll("%t", "WTimer_WardenStoppedHint");
 		char lang[48];
-		FormatEx(lang, sizeof(lang), "%T", "WTimer_Menu", LANG_SERVER);
+		FormatEx(lang, sizeof(lang), "%T", "WTimer_Menu", client);
 		JWP_RefreshMenuItem(ITEM, lang);
 	}
 	
@@ -130,7 +130,7 @@ public Action WTimer_Callback(Handle timer, any client)
 {
 	if (g_iSec-- > 0)
 	{
-		PrintHintTextToAll("%T", "WTimer_TimerHint", LANG_SERVER, g_iSec);
+		PrintHintTextToAll("%t", "WTimer_TimerHint", g_iSec);
 		return Plugin_Continue;
 	}
 	
@@ -138,9 +138,9 @@ public Action WTimer_Callback(Handle timer, any client)
 	GetClientAbsOrigin(client, pos);
 	
 	EmitAmbientSoundAny(g_cSound, pos);
-	PrintHintTextToAll("%T", "WTimer_Finished", LANG_SERVER);
+	PrintHintTextToAll("%t", "WTimer_Finished");
 	char lang[48];
-	FormatEx(lang, sizeof(lang), "%T", "WTimer_Menu", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "WTimer_Menu", client);
 	JWP_RefreshMenuItem(ITEM, lang);
 	if (JWP_IsWarden(client))
 		JWP_ShowMainMenu(client);

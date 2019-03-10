@@ -55,7 +55,7 @@ public void OnPluginEnd()
 
 public bool OnItemDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "PlaySound_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "PlaySound_Menu", client);
 	return true;
 }
 

@@ -30,7 +30,7 @@ public void OnClientSpeakingEx(client)
 			{
 				if (GetClientTeam(i) == CS_TEAM_T)
 				{
-					PrintCenterText(i, "%T", "BeQuiet_Listen", LANG_SERVER);
+					PrintCenterText(i, "%t", "BeQuiet_Listen");
 					if (GetUserAdmin(i) != INVALID_ADMIN_ID)
 						SetClientListeningFlags(i, VOICE_NORMAL);
 					else

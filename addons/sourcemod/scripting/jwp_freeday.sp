@@ -49,7 +49,7 @@ public void OnPluginEnd()
 }
 public bool OnFuncFDGiveDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Freeday_Menu_Give", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Freeday_Menu_Give", client);
 	return true;
 }
 
@@ -65,7 +65,7 @@ public bool OnFuncFDGiveSelect(int client)
 
 public bool OnFuncFDTakeDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Freeday_Menu_Take", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Freeday_Menu_Take", client);
 	return true;
 }
 
@@ -85,12 +85,12 @@ void ShowFreedayMenu(int client, bool fd_players)
 	Menu PList = new Menu(PList_Callback);
 	if (fd_players)
 	{
-		Format(langphrases, sizeof(langphrases), "%T \n", "Freeday_Players_TakeFD_Title", LANG_SERVER);
+		Format(langphrases, sizeof(langphrases), "%T \n", "Freeday_Players_TakeFD_Title", client);
 		PList.SetTitle(langphrases);
 	}
 	else
 	{
-		Format(langphrases, sizeof(langphrases), "%T \n", "Freeday_Players_GiveFD_Title", LANG_SERVER);
+		Format(langphrases, sizeof(langphrases), "%T \n", "Freeday_Players_GiveFD_Title", client);
 		PList.SetTitle(langphrases);
 	}
 	for (int i = 1; i <= MaxClients; ++i)
@@ -112,7 +112,7 @@ void ShowFreedayMenu(int client, bool fd_players)
 	}
 	if (!PList.ItemCount)
 	{
-		Format(langphrases, sizeof(langphrases), "%T", "General_No_Prisoners", LANG_SERVER);
+		Format(langphrases, sizeof(langphrases), "%T", "General_No_Prisoners", client);
 		PList.AddItem("", langphrases, ITEMDRAW_DISABLED);
 	}
 	PList.ExitBackButton = true;
@@ -151,7 +151,7 @@ public int PList_Callback(Menu menu, MenuAction action, int client, int slot)
 												(state) ? g_Cvar_g.IntValue : 255,
 												(state) ? g_Cvar_b.IntValue : 255,
 												(state) ? g_Cvar_a.IntValue : 255);
-					JWP_ActionMsgAll("%T", (state) ? "Freeday_ActionMessage_Gived" : "Freeday_ActionMessage_Taken", LANG_SERVER, client, target);
+					JWP_ActionMsgAll("%t", (state) ? "Freeday_ActionMessage_Gived" : "Freeday_ActionMessage_Taken", client, target);
 				}
 				menu.RemoveItem(slot);
 				ShowFreedayMenu(client, b);

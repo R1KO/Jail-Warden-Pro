@@ -103,10 +103,7 @@ public void CheckEyePosition(int iTeam)
 			&& fEyePosition[2] == g_fEyePosition[i][2])
 			{
 				ForcePlayerSuicide(i);
-				if (GetEngineVersion() == Engine_CSGO)
-					CGOPrintToChatAll("%T %T", "antiafk_tag", LANG_SERVER, "antiafk_kill", LANG_SERVER, i);
-				else
-					CPrintToChatAll("%T %T", "antiafk_tag", LANG_SERVER, "antiafk_kill", LANG_SERVER, i);
+				JWP_ActionMsgAll("%t %t", "antiafk_tag", "antiafk_kill", i);
 				if (iTeam == CS_TEAM_CT)
 				{
 					ChangeClientTeam(i, CS_TEAM_T);

@@ -54,12 +54,12 @@ public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
 	if (g_CvarMaxUses.IntValue)
 	{
-		FormatEx(buffer, maxlength, "%T (%d/%d)", "Respawn_Menu", LANG_SERVER, g_iUses, g_CvarMaxUses.IntValue);
+		FormatEx(buffer, maxlength, "%T (%d/%d)", "Respawn_Menu", client, g_iUses, g_CvarMaxUses.IntValue);
 		if (g_iUses < g_CvarMaxUses.IntValue) style = ITEMDRAW_DEFAULT;
 		else style = ITEMDRAW_DISABLED;
 	}
 	else
-		FormatEx(buffer, maxlength, "%T", "Respawn_Menu", LANG_SERVER);
+		FormatEx(buffer, maxlength, "%T", "Respawn_Menu", client);
 	return true;
 }
 
@@ -69,7 +69,7 @@ public bool OnFuncSelect(int client)
 	{
 		char langbuffer[48];
 		Menu RespawnMenu = new Menu(RespawnMenu_Callback);
-		Format(langbuffer, sizeof(langbuffer), "%T:", "Respawn_Menu", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T:", "Respawn_Menu", client);
 		RespawnMenu.SetTitle(langbuffer);
 		char id[4], name[MAX_NAME_LENGTH];
 		for (int i = 1; i <= MaxClients; ++i)
@@ -83,7 +83,7 @@ public bool OnFuncSelect(int client)
 		}
 		if (!RespawnMenu.ItemCount)
 		{
-			Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Dead_Prisoners", LANG_SERVER);
+			Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Dead_Prisoners", client);
 			RespawnMenu.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 		}
 		RespawnMenu.ExitBackButton = true;
@@ -117,7 +117,7 @@ public int RespawnMenu_Callback(Menu menu, MenuAction action, int client, int sl
 					if (g_CvarMaxUses.IntValue)
 					{
 						char buffer[48];
-						Format(buffer, sizeof(buffer), "%T (%d/%d)", "Respawn_Menu", LANG_SERVER, g_iUses, g_CvarMaxUses.IntValue);
+						Format(buffer, sizeof(buffer), "%T (%d/%d)", "Respawn_Menu", client, g_iUses, g_CvarMaxUses.IntValue);
 						JWP_RefreshMenuItem(ITEM, buffer, (g_iUses < g_CvarMaxUses.IntValue) ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
 					}
 					
@@ -130,10 +130,10 @@ public int RespawnMenu_Callback(Menu menu, MenuAction action, int client, int sl
 							TeleportEntity(target, endpos, NULL_VECTOR, NULL_VECTOR);
 					}
 					
-					JWP_ActionMsgAll("%T", "Respawn_ActionMessage_Respawned", LANG_SERVER, client, target);
+					JWP_ActionMsgAll("%T", "Respawn_ActionMessage_Respawned", client, client, target);
 				}
 				else
-					JWP_ActionMsg(client, "%T", "Respawn_UnableToRespawn", LANG_SERVER);
+					JWP_ActionMsg(client, "%T", "Respawn_UnableToRespawn", client);
 				JWP_ShowMainMenu(client);
 			}
 		}

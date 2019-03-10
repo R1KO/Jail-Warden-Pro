@@ -55,12 +55,12 @@ public bool OnRextendDisplay(int client, char[] buffer, int maxlength, int style
 {
 	if (g_CvarRE_Limit.IntValue)
 	{
-		FormatEx(buffer, maxlength, "%T (%d/%d)", "RE_Menu", LANG_SERVER, g_iExtends, g_CvarRE_Limit.IntValue);
+		FormatEx(buffer, maxlength, "%T (%d/%d)", "RE_Menu", client, g_iExtends, g_CvarRE_Limit.IntValue);
 		if (g_iExtends < g_CvarRE_Limit.IntValue) style = ITEMDRAW_DEFAULT;
 		else style = ITEMDRAW_DISABLED;
 	}
 	else
-		FormatEx(buffer, maxlength, "%T", "RE_Menu", LANG_SERVER);
+		FormatEx(buffer, maxlength, "%T", "RE_Menu", client);
 	
 	return true;
 }
@@ -79,10 +79,10 @@ public bool OnRextendSelect(int client)
 		if (g_CvarRE_Limit.IntValue)
 		{
 			char buffer[48];
-			FormatEx(buffer, sizeof(buffer), "%T (%d/%d)", "RE_Menu", LANG_SERVER, g_iExtends, g_CvarRE_Limit.IntValue);
+			FormatEx(buffer, sizeof(buffer), "%T (%d/%d)", "RE_Menu", client, g_iExtends, g_CvarRE_Limit.IntValue);
 			JWP_RefreshMenuItem(ITEM, buffer, (g_iExtends < g_CvarRE_Limit.IntValue) ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
 		}
-		JWP_ActionMsgAll("%T", "RE_ActionMessage_Extend", LANG_SERVER, client, extend);
+		JWP_ActionMsgAll("%T", "RE_ActionMessage_Extend", client, client, extend);
 		JWP_ShowMainMenu(client);
 	}
 	return true;

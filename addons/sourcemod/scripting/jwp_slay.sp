@@ -35,7 +35,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Slay_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Slay_Menu", client);
 	return true;
 }
 
@@ -44,7 +44,7 @@ public bool OnFuncSelect(int client)
 	if (!JWP_IsWarden(client)) return false;
 	char langbuffer[48];
 	Menu SlayMenu = new Menu(SlayMenu_Callback);
-	Format(langbuffer, sizeof(langbuffer), "%T:", "Slay_Menu", LANG_SERVER);
+	Format(langbuffer, sizeof(langbuffer), "%T:", "Slay_Menu", client);
 	SlayMenu.SetTitle(langbuffer);
 	char id[4], name[MAX_NAME_LENGTH];
 	AdminId aid = GetUserAdmin(client);
@@ -66,7 +66,7 @@ public bool OnFuncSelect(int client)
 	}
 	if (!SlayMenu.ItemCount)
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T", "Slay_NoAlive", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T", "Slay_NoAlive", client);
 		SlayMenu.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 	}
 	SlayMenu.ExitBackButton = true;
@@ -94,10 +94,10 @@ public int SlayMenu_Callback(Menu menu, MenuAction action, int client, int slot)
 				if (CheckClient(target))
 				{
 					ForcePlayerSuicide(target);
-					JWP_ActionMsgAll("%T", "Slay_ActionMessage_Slayed", LANG_SERVER, client, target);
+					JWP_ActionMsgAll("%t", "Slay_ActionMessage_Slayed", client, target);
 				}
 				else
-					JWP_ActionMsg(client, "%T", "Slay_UnableToSlay", LANG_SERVER);
+					JWP_ActionMsg(client, "%t", "Slay_UnableToSlay");
 				JWP_ShowMainMenu(client);
 			}
 		}

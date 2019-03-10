@@ -99,13 +99,13 @@ public Action Command_LPaints(int client, int args)
 				if (g_iClientData[client][lightActive])
 					g_mColorMenu.Display(client, MENU_TIME_FOREVER);
 				else
-					JWP_ActionMsg(client, "%T", "LaserBeam_WardenMustGiveAccess", LANG_SERVER);
+					JWP_ActionMsg(client, "%t", "LaserBeam_WardenMustGiveAccess");
 			}
 			else
-				JWP_ActionMsg(client, "%T", "warden_must_be_alive", LANG_SERVER);
+				JWP_ActionMsg(client, "%t", "warden_must_be_alive");
 		}
 		else
-			JWP_ActionMsg(client, "%T", "LaserBeam_AccessForT", LANG_SERVER);
+			JWP_ActionMsg(client, "%t", "LaserBeam_AccessForT");
 	}
 }
 
@@ -133,7 +133,7 @@ public void JWP_OnWardenResigned(int client, bool himself)
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "LaserBeam_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "LaserBeam_Menu", client);
 	return true;
 }
 
@@ -305,13 +305,13 @@ void LoadMenus()
 	// Load main menu
 	g_mMainMenu = new Menu(MainMenu_Callback, MenuAction_DisplayItem|MenuAction_Select|MenuAction_Cancel);
 	char lang[128];
-	FormatEx(lang, sizeof(lang), "%T", "LaserBeam_Menu", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "LaserBeam_Menu", client);
 	g_mMainMenu.SetTitle(lang);
-	FormatEx(lang, sizeof(lang), "[+] %T", "LaserBeam_ToggleSelfStatus", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "[+] %T", "LaserBeam_ToggleSelfStatus", client);
 	g_mMainMenu.AddItem("status", lang);
-	FormatEx(lang, sizeof(lang), "[+] %T", "LaserBeam_AccessForT", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "[+] %T", "LaserBeam_AccessForT", client);
 	g_mMainMenu.AddItem("Taccess", lang, (g_CvarTFeature.BoolValue) ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
-	FormatEx(lang, sizeof(lang), "%T", "LaserBeam_PickUpColor", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "LaserBeam_PickUpColor", client);
 	g_mMainMenu.AddItem("color", lang);
 	g_mMainMenu.ExitBackButton = true;
 	
@@ -326,7 +326,7 @@ void LoadMenus()
 	
 	g_mColorMenu = new Menu(ColorMenu_Callback);
 	char buffer[64], langbuffer[64];
-	FormatEx(buffer, sizeof(buffer), "%T", "LaserBeam_ColorMenu", LANG_SERVER);
+	FormatEx(buffer, sizeof(buffer), "%T", "LaserBeam_ColorMenu", client);
 	g_mColorMenu.SetTitle(buffer);
 	g_mColorMenu.ExitBackButton = true;
 	int color[4];
@@ -339,7 +339,7 @@ void LoadMenus()
 			if (StrContains(langbuffer, "COLOR_", false) != -1) // If name founded in translations file (jwp_modules.phrases.txt)
 			{
 				Format(langbuffer, sizeof(langbuffer), "LaserBeam_%s", langbuffer);
-				Format(langbuffer, sizeof(langbuffer), "%T", langbuffer, LANG_SERVER);
+				Format(langbuffer, sizeof(langbuffer), "%T", langbuffer, client);
 			}
 			kv.GetColor4("rgba", color);
 			fLife = kv.GetFloat("life", DEFAULT_BEAM_LIFE);
@@ -369,12 +369,12 @@ public int MainMenu_Callback(Menu menu, MenuAction action, int param1, int param
 			char lang[128];
 			if (param2 == 0)
 			{
-				FormatEx(lang, sizeof(lang), "[%s] %T", (g_iClientData[param1][lightActive]) ? '-' : '+', "LaserBeam_ToggleSelfStatus", LANG_SERVER);
+				FormatEx(lang, sizeof(lang), "[%s] %T", (g_iClientData[param1][lightActive]) ? '-' : '+', "LaserBeam_ToggleSelfStatus", client);
 				return RedrawMenuItem(lang);
 			}
 			else if (g_CvarTFeature.BoolValue && param2 == 1) // Update item on 1 position
 			{
-				FormatEx(lang, sizeof(lang), "[%s] %T", (g_bTCanUse) ? '-' : '+', "LaserBeam_AccessForT", LANG_SERVER);
+				FormatEx(lang, sizeof(lang), "[%s] %T", (g_bTCanUse) ? '-' : '+', "LaserBeam_AccessForT", client);
 				return RedrawMenuItem(lang);
 			}
 		}
@@ -393,7 +393,7 @@ public int MainMenu_Callback(Menu menu, MenuAction action, int param1, int param
 							for (int i = 1; i <= MaxClients; ++i)
 							{
 								if (IsClientInGame(i) && GetClientTeam(i) == CS_TEAM_T && IsPlayerAlive(i))
-									JWP_ActionMsg(i, "\x03%T", "LaserBeam_TakeAction", LANG_SERVER, param1);
+									JWP_ActionMsg(i, "\x03%T", "LaserBeam_TakeAction", client, param1);
 								DisableAllForClient(i);
 							}
 						}
@@ -419,10 +419,10 @@ public int MainMenu_Callback(Menu menu, MenuAction action, int param1, int param
 								if (g_bTCanUse)
 								{
 									g_iClientData[i][lightActive] = true;
-									JWP_ActionMsg(i, "\x03%T", "LaserBeam_GrantAction", LANG_SERVER, param1);
+									JWP_ActionMsg(i, "\x03%T", "LaserBeam_GrantAction", client, param1);
 								}
 								else
-									JWP_ActionMsg(i, "\x03%T", "LaserBeam_TakeAction", LANG_SERVER, param1);
+									JWP_ActionMsg(i, "\x03%T", "LaserBeam_TakeAction", client, param1);
 							}
 						}
 					}

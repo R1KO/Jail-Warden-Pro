@@ -86,7 +86,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "[%s]%T", (g_bNoblock) ? '-' : '+', "Noblock_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "[%s]%T", (g_bNoblock) ? '-' : '+', "Noblock_Menu", client);
 	return true;
 }
 
@@ -103,15 +103,15 @@ public bool OnFuncSelect(int client)
 	}
 	if (g_bNoblock)
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "Noblock_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "Noblock_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
 	else
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "Noblock_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "Noblock_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
-	JWP_ActionMsgAll("%T \x02%T", "Noblock_ActionMessage_Title", LANG_SERVER, (g_bNoblock) ? "Noblock_ActionMessage_On":"Noblock_ActionMessage_Off", LANG_SERVER);
+	JWP_ActionMsgAll("%t \x02%t", "Noblock_ActionMessage_Title", (g_bNoblock) ? "Noblock_ActionMessage_On":"Noblock_ActionMessage_Off");
 	JWP_ShowMainMenu(client);
 	return true;
 }

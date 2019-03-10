@@ -89,7 +89,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Order_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Order_Menu", client);
 	return true;
 }
 
@@ -124,11 +124,11 @@ void PreOrderPanel(int client)
 	g_bChatListen = true;
 	Panel panel = new Panel();
 	char text[140];
-	Format(text, sizeof(text), "%T", "Order_Menu_Info", LANG_SERVER);
+	Format(text, sizeof(text), "%T", "Order_Menu_Info", client);
 	ReplaceString(text, sizeof(text), "\\n", "\n");
 	panel.DrawText(text);
 	panel.CurrentKey = 8;
-	Format(text, sizeof(text), "%T", "Back", LANG_SERVER);
+	Format(text, sizeof(text), "%T", "Back", client);
 	panel.DrawItem(text);
 	panel.Send(client, PreOrderPanel_Callback, MENU_TIME_FOREVER);
 }
@@ -174,12 +174,12 @@ void CreateOrderMsg(int client, const char[] order)
 	if (g_CvarOrderPanel.BoolValue)
 	{
 		char langbuffer[24];
-		Format(orderbuf, sizeof(orderbuf), "(%T) %s: %s\n \n", "Order_Warden_Prefix", LANG_SERVER, nick, orderbuf);
+		Format(orderbuf, sizeof(orderbuf), "(%T) %s: %s\n \n", "Order_Warden_Prefix", client, nick, orderbuf);
 		
 		Panel p1 = new Panel();
 		p1.DrawText(orderbuf);
 		p1.CurrentKey = 1;
-		Format(langbuffer, sizeof(langbuffer), "%T", "Exit", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T", "Exit", client);
 		p1.DrawItem(langbuffer);
 		
 		for (int i = 1; i <= MaxClients; ++i)
@@ -203,7 +203,7 @@ void RecheckOrderMsg()
 	else
 		CReplaceColorCodes(g_cOrderMsg);
 	
-	FormatEx(langbuffer, sizeof(langbuffer), "%T", "Order_Warden_Prefix", LANG_SERVER);
+	FormatEx(langbuffer, sizeof(langbuffer), "%T", "Order_Warden_Prefix", client);
 	ReplaceString(g_cOrderMsg, sizeof(g_cOrderMsg), "{prefix}", langbuffer, true);
 	ReplaceString(g_cOrderMsg, sizeof(g_cOrderMsg), "{text}", "", true);
 }

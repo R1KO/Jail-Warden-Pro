@@ -43,7 +43,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Pris_Counter_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Pris_Counter_Menu", client);
 	return true;
 }
 
@@ -76,14 +76,14 @@ public bool OnFuncSelect(int client)
 		}
 	}
 	
-	JWP_ActionMsg(client, "\x04%d\x03/\x04%d \x03%T", count[0], count[2], "Pris_Counter_ActionMessage_Near", LANG_SERVER);
+	JWP_ActionMsg(client, "\x04%d\x03/\x04%d \x03%t", count[0], count[2], "Pris_Counter_ActionMessage_Near");
 	if (g_CvarIncludeFD.BoolValue)
-		JWP_ActionMsg(client, "\x05%T \x02%d", "Pris_Counter_ActionMessage_Freeday", LANG_SERVER, count[1]);
-	
+		JWP_ActionMsg(client, "\x05%t \x02%d", "Pris_Counter_ActionMessage_Freeday", count[1]);
+
 	if (Rebels.Length > 0)
 	{
 		int user;
-		JWP_ActionMsg(client, "\x06%T", "Pris_Counter_ActionMessage_Escaped", LANG_SERVER);
+		JWP_ActionMsg(client, "\x06%t", "Pris_Counter_ActionMessage_Escaped");
 		for (int i = 0; i < Rebels.Length; ++i)
 		{
 			user = Rebels.Get(i);

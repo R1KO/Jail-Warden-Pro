@@ -61,7 +61,7 @@ public void OnPluginEnd()
 
 public bool OnFuncMGiveDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Mute_Menu_GiveMute", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Mute_Menu_GiveMute", client);
 	return true;
 }
 
@@ -77,7 +77,7 @@ public bool OnFuncMGiveSelect(int client)
 
 public bool OnFuncMTakeDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Mute_Menu_TakeMute", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Mute_Menu_TakeMute", client);
 	return true;
 }
 
@@ -97,12 +97,12 @@ void ShowPlayerListMenu(int client, bool muted_pl)
 	Menu PList = new Menu(PList_Callback);
 	if (muted_pl)
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T:", "Mute_Menu_TakeMute", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T:", "Mute_Menu_TakeMute", client);
 		PList.SetTitle(langbuffer);
 	}
 	else
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T:", "Mute_Menu_GiveMute", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T:", "Mute_Menu_GiveMute", client);
 		PList.SetTitle(langbuffer);
 	}
 	
@@ -111,12 +111,12 @@ void ShowPlayerListMenu(int client, bool muted_pl)
 	{
 		if (muted_pl)
 		{
-			Format(langbuffer, sizeof(langbuffer), "%T", "Mute_UnMuteAll", LANG_SERVER);
+			Format(langbuffer, sizeof(langbuffer), "%T", "Mute_UnMuteAll", client);
 			PList.AddItem("unmuteall", langbuffer, (TempMute_Timer == null) ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 		}
 		else
 		{
-			Format(langbuffer, sizeof(langbuffer), "%T", "Mute_MuteAll", LANG_SERVER, g_CvarMuteOnTime.FloatValue);
+			Format(langbuffer, sizeof(langbuffer), "%T", "Mute_MuteAll", client, g_CvarMuteOnTime.FloatValue);
 			PList.AddItem("muteall", langbuffer, (TempMute_Timer != null) ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 		}
 	}
@@ -143,7 +143,7 @@ void ShowPlayerListMenu(int client, bool muted_pl)
 	}
 	if (!PList.ItemCount)
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Prisoners", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Prisoners", client);
 		PList.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 	}
 	PList.ExitBackButton = true;
@@ -179,7 +179,7 @@ public int PList_Callback(Menu menu, MenuAction action, int client, int slot)
 									SetClientListeningFlags(i, VOICE_NORMAL);
 								}
 								else
-									JWP_ActionMsg(client, "%T", "Mute_Dont_Have_Permission", LANG_SERVER, i);
+									JWP_ActionMsg(client, "%t", "Mute_Dont_Have_Permission", i);
 							}
 							else if (!g_bMuted[i]) // Если мута нет, тогда ставим
 							{
@@ -193,13 +193,13 @@ public int PList_Callback(Menu menu, MenuAction action, int client, int slot)
 					if (TempMute_Timer != null)
 					{
 						KillTimer(TempMute_Timer);
-						JWP_ActionMsgAll("%T", "Mute_ActionMessage_UnMuted_All", LANG_SERVER, client);
+						JWP_ActionMsgAll("%t", "Mute_ActionMessage_UnMuted_All", client);
 						TempMute_Timer = null;
 					}
 					else
 					{
 						TempMute_Timer = CreateTimer(g_CvarMuteOnTime.FloatValue, TempMute_Timer_Callback);
-						JWP_ActionMsgAll("%T", "Mute_ActionMessage_Muted_All", LANG_SERVER, client, g_CvarMuteOnTime.FloatValue);
+						JWP_ActionMsgAll("%t", "Mute_ActionMessage_Muted_All", client, g_CvarMuteOnTime.FloatValue);
 					}
 					ShowPlayerListMenu(client, (TempMute_Timer == null) ? true : false);
 				}
@@ -220,7 +220,7 @@ public int PList_Callback(Menu menu, MenuAction action, int client, int slot)
 							}
 							else
 							{
-								JWP_ActionMsg(client, "%T", "Mute_Dont_Have_Permission", LANG_SERVER, target);
+								JWP_ActionMsg(client, "%t", "Mute_Dont_Have_Permission", target);
 								return;
 							}
 						}
@@ -231,7 +231,7 @@ public int PList_Callback(Menu menu, MenuAction action, int client, int slot)
 							SetClientListeningFlags(target, VOICE_MUTED);
 						}
 						
-						JWP_ActionMsgAll("%T", (g_bMuted[target]) ? "Mute_ActionMessage_Muted" : "Mute_ActionMessage_UnMuted", LANG_SERVER, client, target);
+						JWP_ActionMsgAll("%t", (g_bMuted[target]) ? "Mute_ActionMessage_Muted" : "Mute_ActionMessage_UnMuted", client, target);
 						ShowPlayerListMenu(client, !g_bMuted[target]);
 					}
 				}
@@ -253,7 +253,7 @@ public Action TempMute_Timer_Callback(Handle timer)
 				SetClientListeningFlags(i, VOICE_NORMAL);
 			}
 		}
-		JWP_ActionMsgAll("%T", "Mute_ActionMessage_MicroAvailable", LANG_SERVER);
+		JWP_ActionMsgAll("%t", "Mute_ActionMessage_MicroAvailable");
 	}
 	TempMute_Timer = null;
 }

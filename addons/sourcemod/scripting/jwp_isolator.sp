@@ -121,7 +121,7 @@ public void OnClientDisconnect_Post(int client)
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Isolator_Menu", LANG_SERVER); // [#] in isolator
+	FormatEx(buffer, maxlength, "%T", "Isolator_Menu", client); // [#] in isolator
 	return true;
 }
 
@@ -132,7 +132,7 @@ public bool OnFuncSelect(int client)
 		char langbuffer[40];
 		Menu IsolatorMenu = new Menu(IsolatorMenu_Callback);
 		
-		Format(langbuffer, sizeof(langbuffer), "%T:\n%T", "Isolator_Menu", LANG_SERVER, "Isolator_Menu_Info", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T:\n%T", "Isolator_Menu", client, "Isolator_Menu_Info", client);
 		
 		IsolatorMenu.SetTitle(langbuffer);
 		char id[4], name[MAX_NAME_LENGTH];
@@ -150,7 +150,7 @@ public bool OnFuncSelect(int client)
 		}
 		if (!IsolatorMenu.ItemCount)
 		{
-			Format(langbuffer, sizeof(langbuffer), "%T", "Isolator_NoMore_Prisoners", LANG_SERVER);
+			Format(langbuffer, sizeof(langbuffer), "%T", "Isolator_NoMore_Prisoners", client);
 			IsolatorMenu.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 		}
 		IsolatorMenu.ExitBackButton = true;
@@ -183,19 +183,19 @@ public int IsolatorMenu_Callback(Menu menu, MenuAction action, int client, int s
 					if (JWP_IsPrisonerIsolated(target))
 					{
 						TryKillIsolator(target);
-						JWP_ActionMsgAll("%T", "Isolator_Action_Released", LANG_SERVER, client, target);
+						JWP_ActionMsgAll("%t", "Isolator_Action_Released", client, target);
 						JWP_PrisonerIsolated(target, false);
 					}
 					else if (TryPushPrisonerInIsolator(client, target))
 					{
-						JWP_ActionMsgAll("%T", "Isolator_Action_Isolated", LANG_SERVER, client, target);
+						JWP_ActionMsgAll("%t", "Isolator_Action_Isolated", client, target);
 						JWP_PrisonerIsolated(target, true);
 					}
 					else
-						JWP_ActionMsg(client, "%T", "Isolator_FailedToIsolate", LANG_SERVER, target);
+						JWP_ActionMsg(client, "%t", "Isolator_FailedToIsolate", target);
 				}
 				else
-					JWP_ActionMsg(client, "%T", "Isolator_FailedToIsolate_Leave", LANG_SERVER);
+					JWP_ActionMsg(client, "%t", "Isolator_FailedToIsolate_Leave");
 				OnFuncSelect(client);
 			}
 		}
@@ -234,7 +234,7 @@ bool TryPushPrisonerInIsolator(int client, int prisoner)
 	int ent = TiB_GetAimInfo(client, center);
 	if (ent > 0 && ent <= MaxClients)
 	{
-		PrintCenterText(client, "%T", "Isolator_NearPlayer", LANG_SERVER);
+		PrintCenterText(client, "%t", "Isolator_NearPlayer");
 		return false;
 	}
 	float angles[3];
@@ -251,7 +251,7 @@ bool TryPushPrisonerInIsolator(int client, int prisoner)
 			GetClientAbsOrigin(i, pOrigin);
 			if (GetVectorDistance(pOrigin, center, false) <= wall_dist)
 			{
-				PrintCenterText(client, "%T", "Isolator_CantCreate", LANG_SERVER);
+				PrintCenterText(client, "%t", "Isolator_CantCreate");
 				return false;
 			}
 		}
@@ -267,7 +267,7 @@ bool TryPushPrisonerInIsolator(int client, int prisoner)
 	ent = EditWallPositionAndCreateWall(center, angles, direction, wall_dist, true);
 	if (!ent)
 	{
-		PrintHintText(client, "%T", "Isolator_FindAnotherLocation", LANG_SERVER);
+		PrintHintText(client, "%t", "Isolator_FindAnotherLocation");
 		return false;
 	}
 	

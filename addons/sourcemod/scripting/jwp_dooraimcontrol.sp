@@ -36,7 +36,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDrOpenDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	Format(buffer, maxlength, "%T", "DoorAimControl_Menu_Open", LANG_SERVER);
+	Format(buffer, maxlength, "%T", "DoorAimControl_Menu_Open", client);
 	return true;
 }
 
@@ -50,7 +50,7 @@ public bool OnFuncDrOpenSelect(int client)
 
 public bool OnFuncDrCloseDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	Format(buffer, maxlength, "%T", "DoorAimControl_Menu_Close", LANG_SERVER);
+	Format(buffer, maxlength, "%T", "DoorAimControl_Menu_Close", client);
 	return true;
 }
 
@@ -72,16 +72,16 @@ void DoorManip(int client, bool open)
 		if (open)
 		{
 			AcceptEntityInput(ent, "Open");
-			JWP_ActionMsg(client, "\x03%T", "DoorAimControl_ActionMessage_Open", LANG_SERVER);
+			JWP_ActionMsg(client, "\x03%t", "DoorAimControl_ActionMessage_Open");
 		}
 		else
 		{
 			AcceptEntityInput(ent, "Close");
-			JWP_ActionMsg(client, "\x02%T", "DoorAimControl_ActionMessage_Close", LANG_SERVER);
+			JWP_ActionMsg(client, "\x02%t", "DoorAimControl_ActionMessage_Close");
 		}
 	}
 	else
-		PrintCenterText(client, "%T", "DoorAimControl_Take_Aim", LANG_SERVER);
+		PrintCenterText(client, "%t", "DoorAimControl_Take_Aim");
 }
 
 int TiB_GetAimInfo(int client)

@@ -53,7 +53,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "[%s]%T", (g_bTurnOn) ? '-' : '+', "FF_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "[%s]%T", (g_bTurnOn) ? '-' : '+', "FF_Menu", client);
 	return true;
 }
 
@@ -61,16 +61,16 @@ public bool OnFuncSelect(int client)
 {
 	g_bTurnOn = !g_bTurnOn;
 	Cvar_FF.SetBool(g_bTurnOn, false, false);
-	JWP_ActionMsgAll("%T\x02%T", "FF_ActionMessage_FriendlyFire", LANG_SERVER, (g_bTurnOn) ? "FF_State_On":"FF_State_Off", LANG_SERVER);
+	JWP_ActionMsgAll("%T\x02%T", "FF_ActionMessage_FriendlyFire", client, (g_bTurnOn) ? "FF_State_On":"FF_State_Off", client);
 	char menuitem[48];
 	if (g_bTurnOn)
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "FF_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "FF_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
 	else
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "FF_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "FF_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
 	JWP_ShowMainMenu(client);

@@ -86,20 +86,28 @@ public int Native_ActionMsgAll(Handle plugin, int numParams)
 {
 	char buffer[192], prefix[52];
 	
-	FormatNativeString(0, 1, 2, sizeof(buffer), _, buffer);
-	FormatEx(prefix, sizeof(prefix), "%T", "Core_Prefix", LANG_SERVER);
-	if (g_bIsCSGO)
-		CGOPrintToChatAll("%s %s", prefix, buffer);
-	else
-		CPrintToChatAll("%s %s", prefix, buffer);
+	for (int i = 1; i <= MaxClients; ++i)
+	{
+		if (IsClientInGame(i) && !IsFakeClient(i))
+		{
+			SetGlobalTransTarget(i);
+			FormatNativeString(0, 1, 2, sizeof(buffer), _, buffer);
+			FormatEx(prefix, sizeof(prefix), "%T", "Core_Prefix", i);
+			if (g_bIsCSGO)
+				CGOPrintToChatAll("%s %s", prefix, buffer);
+			else
+				CPrintToChatAll("%s %s", prefix, buffer);
+		}
+	}
 }
 
 public int Native_ActionMsg(Handle plugin, int numParams)
 {
 	char buffer[192], prefix[52];
 	int client = GetNativeCell(1);
+	SetGlobalTransTarget(client);
 	FormatNativeString(0, 2, 3, sizeof(buffer), _, buffer);
-	FormatEx(prefix, sizeof(prefix), "%T", "Core_Prefix", LANG_SERVER);
+	FormatEx(prefix, sizeof(prefix), "%T", "Core_Prefix", client);
 	if (g_bIsCSGO)
 		CGOPrintToChat(client, "%s %s", prefix, buffer);
 	else

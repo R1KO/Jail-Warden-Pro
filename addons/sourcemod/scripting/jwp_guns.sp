@@ -46,7 +46,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Guns_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "Guns_Menu", client);
 	return true;
 }
 
@@ -74,7 +74,7 @@ void LoadGunsFile()
 	int options[5], idx;
 	g_WeaponMenu = new Menu(g_WeaponMenu_Callback);
 	
-	Format(text, sizeof(text), "%T:", "Guns_Menu", LANG_SERVER);
+	Format(text, sizeof(text), "%T:", "Guns_Menu", client);
 	
 	g_WeaponMenu.SetTitle(text);
 	do

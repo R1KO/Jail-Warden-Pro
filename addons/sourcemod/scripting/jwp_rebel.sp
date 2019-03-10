@@ -79,7 +79,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 				SetEntityRenderMode(attacker, RENDER_TRANSCOLOR);
 				SetEntityRenderColor(attacker, g_CvarRebelColor_r.IntValue, g_CvarRebelColor_g.IntValue, g_CvarRebelColor_b.IntValue, g_CvarRebelColor_a.IntValue);
 			}
-			JWP_ActionMsgAll("%T", "Rebel_Message", LANG_SERVER, attacker);
+			JWP_ActionMsgAll("%t", "Rebel_Message",  attacker);
 			if (g_CvarRebelTime.IntValue)
 				g_TimerColor[attacker] = CreateTimer(g_CvarRebelTime.FloatValue, g_TimerColor_Callback, attacker);
 			JWP_PrisonerRebel(attacker, true);

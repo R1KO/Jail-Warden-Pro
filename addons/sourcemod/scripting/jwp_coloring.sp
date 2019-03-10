@@ -50,7 +50,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "[%s]%T", (g_bColoring) ? '-' : '+', "Coloring_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "[%s]%T", (g_bColoring) ? '-' : '+', "Coloring_Menu", client);
 	return true;
 }
 
@@ -70,12 +70,12 @@ public bool OnFuncSelect(int client)
 				if (red)
 				{
 					SetEntityRenderColor(i, 255, 0, 0, 255);
-					JWP_ActionMsg(i, "%T %T", "Coloring_Your_Color", LANG_SERVER, "Coloring_Red_Color", LANG_SERVER);
+					JWP_ActionMsg(i, "%t %t", "Coloring_Your_Color", "Coloring_Red_Color");
 				}
 				else
 				{
 					SetEntityRenderColor(i, 0, 0, 255, 255);
-					JWP_ActionMsg(i, "%T %T", "Coloring_Your_Color", LANG_SERVER, "Coloring_Blue_Color", LANG_SERVER);
+					JWP_ActionMsg(i, "%t %t", "Coloring_Your_Color", "Coloring_Blue_Color");
 				}
 			}
 		}
@@ -88,7 +88,7 @@ public bool OnFuncSelect(int client)
 			{
 				SetEntityRenderMode(i, RENDER_TRANSCOLOR);
 				SetEntityRenderColor(i, 255, 255, 255, 255);
-				JWP_ActionMsg(i, "%T %T", "Coloring_Your_Color", LANG_SERVER, "Coloring_Standart_Color", LANG_SERVER);
+				JWP_ActionMsg(i, "%t %t", "Coloring_Your_Color", "Coloring_Standart_Color");
 			}
 		}
 	}
@@ -96,15 +96,15 @@ public bool OnFuncSelect(int client)
 	char menuitem[48];
 	if (g_bColoring)
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "Coloring_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[-]%T", "Coloring_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
 	else
 	{
-		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "Coloring_Menu", LANG_SERVER);
+		FormatEx(menuitem, sizeof(menuitem), "[+]%T", "Coloring_Menu", client);
 		JWP_RefreshMenuItem(ITEM, menuitem);
 	}
-	JWP_ActionMsg(client, "%T %T", "Coloring_ActionMessage", LANG_SERVER, (g_bColoring) ? "Coloring_State_On" : "Coloring_State_Off", LANG_SERVER);
+	JWP_ActionMsg(client, "%t %t", "Coloring_ActionMessage", (g_bColoring) ? "Coloring_State_On" : "Coloring_State_Off");
 	JWP_ShowMainMenu(client);
 	return true;
 }

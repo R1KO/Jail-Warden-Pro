@@ -125,7 +125,7 @@ public void OnPluginEnd()
 
 public bool OnItemDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	Format(buffer, maxlength, "%T", "Handcuffs_Menu", LANG_SERVER);
+	Format(buffer, maxlength, "%T", "Handcuffs_Menu", client);
 	return true;
 }
 

@@ -48,7 +48,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "ToJail_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "ToJail_Menu", client);
 	return true;
 }
 
@@ -57,7 +57,7 @@ public bool OnFuncSelect(int client)
 	if (!JWP_IsWarden(client)) return false;
 	char langbuffer[32];
 	Menu ToJailMenu = new Menu(ToJailMenu_Callback);
-	Format(langbuffer, sizeof(langbuffer), "%T:", "ToJail_Menu", LANG_SERVER);
+	Format(langbuffer, sizeof(langbuffer), "%T:", "ToJail_Menu", client);
 	ToJailMenu.SetTitle(langbuffer);
 	char id[4], name[MAX_NAME_LENGTH];
 	for (int i = 1; i <= MaxClients; ++i)
@@ -71,7 +71,7 @@ public bool OnFuncSelect(int client)
 	}
 	if (!ToJailMenu.ItemCount)
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Alive_Prisoners", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Alive_Prisoners", client);
 		ToJailMenu.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 	}
 	ToJailMenu.ExitBackButton = true;
@@ -102,13 +102,13 @@ public int ToJailMenu_Callback(Menu menu, MenuAction action, int client, int slo
 					if (CoordsExists(target))
 					{
 						if (TeleportEntity(target, g_fCoords[target], NULL_VECTOR, NULL_VECTOR))
-							JWP_ActionMsgAll("%T", "ToJail_ActionMessage_Teleported", LANG_SERVER, client, target);
+							JWP_ActionMsgAll("%t", "ToJail_ActionMessage_Teleported",  client, target);
 					}
 					else
-						JWP_ActionMsg(client, "%T", "ToJail_FailedCoords", LANG_SERVER, target);
+						JWP_ActionMsg(client, "%t", "ToJail_FailedCoords", target);
 				}
 				else
-					JWP_ActionMsg(client, "%T", "ToJail_UnableToTP", LANG_SERVER);
+					JWP_ActionMsg(client, "%t", "ToJail_UnableToTP");
 				JWP_ShowMainMenu(client);
 			}
 		}

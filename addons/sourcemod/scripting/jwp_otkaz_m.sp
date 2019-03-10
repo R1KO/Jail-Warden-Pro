@@ -34,7 +34,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "Otkaz_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%t", "Otkaz_Menu", client);
 	return true;
 }
 

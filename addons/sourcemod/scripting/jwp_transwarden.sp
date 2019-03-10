@@ -33,7 +33,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "TransWarden_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "TransWarden_Menu", client);
 	return true;
 }
 
@@ -42,7 +42,7 @@ public bool OnFuncSelect(int client)
 	if (!JWP_IsWarden(client)) return false;
 	Menu ctList = new Menu(ctList_Callback);
 	char lang[48];
-	FormatEx(lang, sizeof(lang), "%T", "TransWarden_Title", LANG_SERVER);
+	FormatEx(lang, sizeof(lang), "%T", "TransWarden_Title", client);
 	ctList.SetTitle(lang);
 	char userid[4], name[MAX_NAME_LENGTH];
 	for (int i = 1; i <= MaxClients; i++)
@@ -56,7 +56,7 @@ public bool OnFuncSelect(int client)
 	}
 	if (!ctList.ItemCount)
 	{
-		FormatEx(lang, sizeof(lang), "%T", "TransWarden_NoCT", LANG_SERVER);
+		FormatEx(lang, sizeof(lang), "%T", "TransWarden_NoCT", client);
 		ctList.AddItem("", lang, ITEMDRAW_DISABLED);
 	}
 	
@@ -86,7 +86,7 @@ public int ctList_Callback(Menu menu, MenuAction action, int param1, int param2)
 				
 				if (target && IsClientInGame(target) && IsPlayerAlive(target))
 				{
-					JWP_ActionMsgAll("\x04%T", "TransWarden_Action", LANG_SERVER, param1, target);
+					JWP_ActionMsgAll("\x04%t", "TransWarden_Action", param1, target);
 					JWP_SetWarden(target);
 				}
 			}

@@ -45,7 +45,7 @@ public void OnPluginEnd()
 
 public bool OnFuncDisplay(int client, char[] buffer, int maxlength, int style)
 {
-	FormatEx(buffer, maxlength, "%T", "StripKnife_Menu", LANG_SERVER);
+	FormatEx(buffer, maxlength, "%T", "StripKnife_Menu", client);
 	return true;
 }
 
@@ -54,7 +54,7 @@ public bool OnFuncSelect(int client)
 	if (!JWP_IsWarden(client)) return false;
 	char langbuffer[32];
 	Menu StripMenu = new Menu(StripMenu_Callback);
-	Format(langbuffer, sizeof(langbuffer), "%T", "StripKnife_Title", LANG_SERVER);
+	Format(langbuffer, sizeof(langbuffer), "%T", "StripKnife_Title", client);
 	StripMenu.SetTitle(langbuffer);
 	char id[4], name[MAX_NAME_LENGTH];
 	for (int i = 1; i <= MaxClients; ++i)
@@ -68,7 +68,7 @@ public bool OnFuncSelect(int client)
 	}
 	if (!StripMenu.ItemCount)
 	{
-		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Alive_Prisoners", LANG_SERVER);
+		Format(langbuffer, sizeof(langbuffer), "%T", "General_No_Alive_Prisoners", client);
 		StripMenu.AddItem("", langbuffer, ITEMDRAW_DISABLED);
 	}
 	StripMenu.ExitBackButton = true;
@@ -101,18 +101,18 @@ public int StripMenu_Callback(Menu menu, MenuAction action, int client, int slot
 						int weapon = GetPlayerWeaponSlot(target, 2);
 						if (IsValidEdict(weapon))
 							AcceptEntityInput(weapon, "Kill");
-						JWP_ActionMsgAll("%T", "StripKnife_ActionMessage_Taken", LANG_SERVER, client, target);
+						JWP_ActionMsgAll("%t", "StripKnife_ActionMessage_Taken", client, target);
 						g_bHaveKnife[target] = false;
 					}
 					else
 					{
 						GivePlayerItem(target, "weapon_knife");
-						JWP_ActionMsgAll("%T", "StripKnife_ActionMessage_Given", LANG_SERVER, client, target);
+						JWP_ActionMsgAll("%t", "StripKnife_ActionMessage_Given", client, target);
 						g_bHaveKnife[target] = true;
 					}
 				}
 				else
-					JWP_ActionMsg(client, "%T", "StripKnife_ActionMessage_Unable", LANG_SERVER);
+					JWP_ActionMsg(client, "%t", "StripKnife_ActionMessage_Unable");
 				
 				if (client && IsClientInGame(client) && JWP_IsWarden(client))
 					OnFuncSelect(client);
