@@ -1,6 +1,8 @@
 #include <sourcemod>
 #include <cstrike>
-#include <SteamWorks>
+#undef REQUIRE_EXTENSIONS
+#tryinclude <SteamWorks>
+#define REQUIRE_EXTENSIONS
 #undef REQUIRE_PLUGIN
 #tryinclude <csgo_colors>
 #tryinclude <morecolors>
@@ -14,7 +16,9 @@
 #define UPDATE_URL "http://updater.tibari.ru/jwp/updatefile.txt"
 #define LOG_PATH "addons/sourcemod/logs/JWP_Log.log"
 
+#if defined _SteamWorks_Included
 stock const char API_KEY[] = "0f0f2821d03a230f3e79f7227711005d";
+#endif
 
 //#define DEBUG
 
@@ -662,6 +666,7 @@ stock int JWP_GetRandomTeamClient(int team, bool alive, bool ignore_resign, bool
 	return (!count) ? -1 : Players[GetRandomInt(0, count-1)];
 }
 
+#if defined _SteamWorks_Included
 /* Stats pusher */
 public int SteamWorks_SteamServersConnected()
 {
@@ -687,3 +692,4 @@ public int SteamWorks_SteamServersConnected()
 		}
 	}
 }
+#endif
